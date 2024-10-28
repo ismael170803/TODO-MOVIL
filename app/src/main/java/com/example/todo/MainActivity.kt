@@ -37,14 +37,14 @@ class MainActivity : AppCompatActivity() {
         // Manejo del mensaje de notificación
         val message = intent.getStringExtra("notification_message")
         if (message != null) {
-            // Cargar HomeFragment y pasar el mensaje
-            val homeFragment = HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString("notification_message", message)
-                }
+            // Crear un Bundle para pasar el mensaje a NotificationsFragment
+            val bundle = Bundle().apply {
+                putString("notification_message", message)
             }
-            // Navegar al HomeFragment usando el NavController
-            navController.navigate(R.id.navigation_home) // Navegar a HomeFragment
+
+            // Limpiar el historial de navegación antes de ir a NotificationsFragment
+            navController.popBackStack(R.id.navigation_notifications, true)
+            navController.navigate(R.id.navigation_home, bundle)
         }
     }
 }
