@@ -5,5 +5,8 @@
     <string name="title_notifications">Notificaciones</string>
     <string name="strOlvidar"><u>Recordar Contraseña</u></string>
     <string name="strCrear_Cuenta"><u>Crea tu Cuenta Aquí</u></string>
+    <string name="strBienvenida">¡Bienvenidos a <b>ToDo Móvil</b>! 🎉</string>
+
+
 
 </resources>
