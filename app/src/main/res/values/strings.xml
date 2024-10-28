@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ToDo</string>
+    <string name="title_home">Inicio</string>
+    <string name="title_dashboard">Tablero</string>
+    <string name="title_notifications">Notificaciones</string>
+    <string name="strOlvidar"><u>Recordar Contraseña</u></string>
+    <string name="strCrear_Cuenta"><u>Crea tu Cuenta Aquí</u></string>
+
+</resources>
