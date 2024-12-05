@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="?android:attr/colorBackground"
+    android:layout_marginTop="16dp">
+
+    <!-- Título de la tarea -->
+    <EditText
+        android:id="@+id/etTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Título de la tarea"
+        android:textColor="?android:textColorPrimary"
+        android:textColorHint="?android:textColorHint"
+        android:backgroundTint="?android:attr/colorControlNormal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginBottom="12dp"
+        android:drawableLeft="@drawable/ic_title_24" /> <!-- Agregar icono a la izquierda -->
+
+    <!-- Descripción -->
+    <EditText
+        android:id="@+id/etDescripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Descripción"
+        android:textColor="?android:textColorPrimary"
+        android:textColorHint="?android:textColorHint"
+        android:backgroundTint="?android:attr/colorControlNormal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginBottom="12dp"
+        android:drawableLeft="@drawable/ic_description_24" /> <!-- Agregar icono a la izquierda -->
+
+    <!-- Spinner para la prioridad -->
+    <Spinner
+        android:id="@+id/spPrioridad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="?android:attr/colorControlNormal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp" />
+
+    <!-- Fecha límite -->
+    <EditText
+        android:id="@+id/etFechaLimite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Selecciona la fecha límite"
+        android:focusable="false"
+        android:textColor="?android:textColorPrimary"
+        android:textColorHint="?android:textColorHint"
+        android:backgroundTint="?android:attr/colorControlNormal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@drawable/ic_calendar_month_24" /> <!-- Icono de calendario -->
+
+    <!-- Botones Cancelar y Guardar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Cancelar"
+            android:backgroundTint="@color/teal_700"
+            android:textColor="@android:color/white"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_gravity="center_vertical"
+            android:drawableLeft="@drawable/ic_close_24" />
+
+        <Button
+            android:id="@+id/btnGuardar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guardar"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/teal_700"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:drawableLeft="@drawable/ic_check_24" />
+    </LinearLayout>
+</LinearLayout>

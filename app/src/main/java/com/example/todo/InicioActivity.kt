@@ -13,6 +13,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 
+
 class InicioActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
@@ -31,9 +32,17 @@ class InicioActivity : AppCompatActivity() {
         val btncrear_Cuenta_Nueva : TextView = findViewById(R.id.btnCrearCuenta)
         val btnRecordar : TextView = findViewById(R.id.btnOlvidar)
         firebaseAuth= Firebase.auth
-        btningresar.setOnClickListener()
-        {
-            sign(txtemail.text.toString(), txtpass.text.toString() )
+        btningresar.setOnClickListener {
+            val email = txtemail.text.toString().trim() // Elimina espacios extra
+            val password = txtpass.text.toString().trim()
+
+            if (email.isEmpty() || password.isEmpty()) {
+                // Si alguno de los campos está vacío, muestra un mensaje
+                Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
+            } else {
+                // Si los campos están llenos, intenta iniciar sesión
+                sign(email, password)
+            }
         }
         btncrear_Cuenta_Nueva.setOnClickListener()
         {

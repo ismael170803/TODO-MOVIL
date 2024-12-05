@@ -13,40 +13,65 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-
 class RecordarPassActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var authStateListener: FirebaseAuth.AuthStateListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_recordar_pass)
+
+        // Ajuste de insets para compatibilidad visual
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val txtmail : TextView = findViewById(R.id.txtEmailCambio)
-        val btnCambiar : Button = findViewById(R.id.btnCambiar)
-        btnCambiar.setOnClickListener()
-        {
-            sendPasswordReset(txtmail.text.toString())
-        }
+
+        // Inicialización de vistas
+        val txtMail: TextView = findViewById(R.id.txtEmailCambio)
+        val btnCambiar: Button = findViewById(R.id.btnCambiar)
+
+        // Inicialización de FirebaseAuth
         firebaseAuth = Firebase.auth
+
+        // Listener para el botón de cambio
+        btnCambiar.setOnClickListener {
+            val email = txtMail.text.toString().trim()
+
+            // Validación de campo vacío
+            if (email.isEmpty()) {
+                Toast.makeText(
+                    this,
+                    "Por favor, ingresa un correo electrónico válido",
+                    Toast.LENGTH_SHORT
+                ).show()
+                txtMail.requestFocus()
+                return@setOnClickListener
+            }
+
+            // Enviar correo de restablecimiento de contraseña
+            sendPasswordReset(email)
+        }
     }
-    private fun sendPasswordReset (email: String)
-    {
+
+    private fun sendPasswordReset(email: String) {
         firebaseAuth.sendPasswordResetEmail(email)
-            .addOnCompleteListener(){ task ->
-                if (task.isSuccessful)
-                {
-                    Toast.makeText(baseContext,"Verificación Enviado Correctamente", Toast.LENGTH_SHORT).show()
-                    val i = Intent(this, InicioActivity::class.java)
-                    startActivity(i)
-                }
-                else
-                {
-                    Toast.makeText(baseContext,"Error, no se pudo verificar el Correo", Toast.LENGTH_SHORT).show()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(
+                        baseContext,
+                        "Correo de restablecimiento enviado correctamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val intent = Intent(this, InicioActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(
+                        baseContext,
+                        "Error: no se pudo enviar el correo de restablecimiento",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
     }

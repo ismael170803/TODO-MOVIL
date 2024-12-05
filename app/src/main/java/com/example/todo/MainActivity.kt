@@ -1,11 +1,14 @@
 package com.example.todo
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.todo.databinding.ActivityMainBinding
 import com.example.todo.ui.home.HomeFragment
@@ -13,38 +16,82 @@ import com.example.todo.ui.home.HomeFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val PERMISSION_REQUEST_CODE = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Configuración del binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Configuración del BottomNavigationView
-        val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
-        // Configuración del ActionBar
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+                R.id.navigation_home,
+                R.id.navigation_dashboard,
+                R.id.navigation_notifications
             )
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        binding.navView.setupWithNavController(navController)
 
-        // Manejo del mensaje de notificación
-        val message = intent.getStringExtra("notification_message")
-        if (message != null) {
-            // Crear un Bundle para pasar el mensaje a NotificationsFragment
-            val bundle = Bundle().apply {
-                putString("notification_message", message)
+        binding.fabAddTask.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    mostrarDialogoAñadirTarea()
+                } else {
+                    solicitarPermisoNotificaciones()
+                }
+            } else {
+                mostrarDialogoAñadirTarea()
             }
+        }
+    }
 
-            // Limpiar el historial de navegación antes de ir a NotificationsFragment
-            navController.popBackStack(R.id.navigation_notifications, true)
-            navController.navigate(R.id.navigation_home, bundle)
+    private fun mostrarDialogoAñadirTarea() {
+        AñadirTarea { nuevaTarea ->
+            val currentFragment = supportFragmentManager
+                .findFragmentById(R.id.nav_host_fragment_activity_main)
+                ?.childFragmentManager
+                ?.fragments
+                ?.firstOrNull()
+            if (currentFragment is HomeFragment) {
+                currentFragment.agregarTareaDesdeDialog(nuevaTarea)
+            }
+        }.show(supportFragmentManager, "AñadirTarea")
+    }
+
+    private fun solicitarPermisoNotificaciones() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            )
+        ) {
+            // Mostrar una explicación al usuario si es necesario
+            // (Puedes agregar un mensaje aquí antes de solicitar el permiso)
+        }
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+            PERMISSION_REQUEST_CODE
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mostrarDialogoAñadirTarea()
+            } else {
+                // El permiso fue denegado, manejar el caso aquí
+            }
         }
     }
 }

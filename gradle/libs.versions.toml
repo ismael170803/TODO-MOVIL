@@ -14,6 +14,9 @@ navigationFragmentKtx = "2.7.7"
 navigationUiKtx = "2.7.7"
 activity = "1.9.1"
 firebaseAuthKtx = "23.1.0"
+core = "1.15.0"
+firebaseFirestoreKtx = "25.1.1"
+foundationAndroid = "1.7.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -29,6 +32,9 @@ androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navi
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
+androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
+firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
+androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
